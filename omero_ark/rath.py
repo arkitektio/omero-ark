@@ -11,6 +11,12 @@ current_omero_ark_rath = contextvars.ContextVar("current_omero_ark_rath")
 
 
 class OmeroArkRathLinkComposition(TypedComposedLink):
+    """OmeroArk Rath Link Composition
+
+    This is a composition of links that are used by the OmeroArkRath. It is a subclass of
+    TypedComposedLink that adds some default links to convert files and array to support
+    the graphql multipart request spec."""
+
     fileextraction: FileExtraction = Field(default_factory=FileExtraction)
     dicting: DictingLink = Field(default_factory=DictingLink)
     auth: AuthTokenLink
@@ -29,11 +35,6 @@ class OmeroArkRath(rath.Rath):
     the graphql multipart request spec."""
 
     link: OmeroArkRathLinkComposition
-
-    def _repr_html_inline_(self):
-        return (
-            f"<table><tr><td>auto_connect</td><td>{self.auto_connect}</td></tr></table>"
-        )
 
     async def __aenter__(self):
         await super().__aenter__()
